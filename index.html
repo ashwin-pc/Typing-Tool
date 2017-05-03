@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Typing Tool</title>
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <!-- Milligram CSS minified -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="card z-2">
+        <h3>
+            Welcome to the typing tool demo
+            <span class="sub">Enter the text you want to preview being typed</span>
+        </h3>
+
+        <label for="textField">Text</label>
+        <textarea id="textField"></textarea>
+
+        <div class="row">
+            <div class="column">
+                <label for="speedField">Speed (in ms)</label>
+                <input type="text" id="speedField" value="100">
+            </div>
+            <div class="column">
+                <label for="delayField">Delay (in ms)</label>
+                <input type="text" id="delayField" value="0">
+            </div>
+        </div>
+        
+        <button class="button" id="typeButton">Type</button>
+        <button class="button" id="eraseButton">Erase</button>
+        <button class="button" id="eraseTypeButton">Erase & Type</button>
+    </div>
+
+    <div class="card z-2" id="typeContainer"></div>
+
+    <script src="TypingTool.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
