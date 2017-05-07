@@ -13,7 +13,7 @@ function TypingTool(options) {
     var self = this;
     
     self.cont = document.getElementById(opt.container) || document.body;
-    self.speed = opt.speed || 100;
+    self.speed = opt.speed || 50;
     self.delay = opt.delay || 0;
     
     // Cursor functions
@@ -28,6 +28,7 @@ function TypingTool(options) {
 
     document.addEventListener("type", function () {
         // Do nothing if typing in progress
+        console.log(self.isTyping);
         if (self.isTyping || !self.queue.length) {return;}  
         self.isTyping = true;
 
@@ -47,8 +48,8 @@ function TypingTool(options) {
                     self.addCursor(qItem.cont);
 
                     // If erase is required 
-                    if (qItem.erase) {
-                        self.erase(null,{triggerType: true})
+                    if (qItem.erase && self.queue.length) {
+                        self.erase(null,{triggerType: true, delay: qItem.delay})
                     } else {
                         setTimeout(function() {
                             self.isTyping = false;
@@ -148,21 +149,17 @@ TypingTool.prototype.eraseAndType = function (text, options) {
     var cont = opt.container || self.cont;
     var speed = opt.speed || self.speed;
     var delay = opt.delay || self.delay;
-    var timeout = (speed * cont.innerText.length) + delay + 100;
-    
-    self.erase(null, opt);
-    setTimeout(function() {
-        var qItem = {
-            text: text,
-            speed: speed,
-            delay: delay,
-            cont: cont,
-            erase: true
-        }
-        self.queue.push(qItem);
-        console.log(self.queue);
-        document.dispatchEvent(self.typeEvent);
-    }, timeout);
+
+    var qItem = {
+        text: text,
+        speed: speed,
+        delay: delay,
+        cont: cont,
+        erase: true
+    }
+    self.queue.push(qItem);
+    console.log(self.queue);
+    document.dispatchEvent(self.typeEvent);
 }
 
 /**
