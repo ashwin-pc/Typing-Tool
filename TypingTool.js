@@ -16,6 +16,11 @@ function TypingTool(options) {
     self.speed = opt.speed || 100;
     self.delay = opt.delay || 0;
     
+    // Cursor functions
+    self.cursor = {
+        enabled: opt.enableCursor || true
+    };
+    
     // Queue features
     self.queue = [];
     self.isTyping = false;
@@ -38,6 +43,7 @@ function TypingTool(options) {
                 if (length < index || error++ > 1000) {
                     clearInterval(typing);
                     self.isTyping = false;
+                    self.addCursor(qItem.cont);
                     setTimeout(function() {
                         document.dispatchEvent(self.typeEvent);
                     }, 100);
@@ -73,9 +79,8 @@ TypingTool.prototype.type = function (text, options) {
         delay: delay
     }
     if (text && typeof text === 'string') {self.queue.push(qItem);}
-    document.dispatchEvent(self.typeEvent);
-
     console.log(self.queue);
+    document.dispatchEvent(self.typeEvent);
 }
 
 /**
@@ -136,6 +141,32 @@ TypingTool.prototype.eraseAndType = function (text, options) {
     }, timeout);
 }
 
-TypingTool.prototype.addCursor = function () {
-    var cursor = document.createElement("span")
+TypingTool.prototype.addCursor = function (container) {
+    var self = this;
+    if(!self.cursor.enabled) {return};
+
+    // Add cursor style if necessary
+    if (!self.cursor.hasStylesheet) {
+        // Create a new style tag
+        var style = document.createElement("style");
+        
+        style.innerHTML = 
+        '.cursor { \
+            position: relative;\
+            top: -1px;\
+            font-size: 1.1em;\
+            animation: blink 1s linear infinite;\
+         }\
+         @keyframes blink {0% {opacity:0} 49% {opacity:0} 50% {opacity:1} 100% {opacity:1} }';
+        document.head.appendChild(style);
+        self.cursor.hasStylesheet = true;
+    }
+    
+    // Add Cursor
+    var cursor = document.createElement("span");
+    var cont = document.getElementById(container) || self.cont;
+    
+    cursor.classList.add("cursor");
+    cursor.innerHTML = "|";
+    cont.appendChild(cursor);
 }
