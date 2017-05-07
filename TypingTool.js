@@ -10,10 +10,41 @@
  */
 function TypingTool(options) {
     var opt = options || {};
+    var self = this;
     
-    this.cont = document.getElementById(opt.container) || document.body;
-    this.speed = opt.speed || 100;
-    this.delay = opt.delay || 0;
+    self.cont = document.getElementById(opt.container) || document.body;
+    self.speed = opt.speed || 100;
+    self.delay = opt.delay || 0;
+    
+    // Queue features
+    self.queue = [];
+    self.isTyping = false;
+    self.typeEvent = new Event("type");
+
+    document.addEventListener("type", function () {
+        // Do nothing if typing in progress
+        if (self.isTyping || !self.queue.length) {return;}  
+        self.isTyping = true;
+
+        // Take one out of the queue and initialize
+        var qItem = self.queue.shift();
+        var length = qItem.text.length;
+        var index = 0;
+        var error = 0;
+        
+        setTimeout(function() {
+            var typing = setInterval(function () {
+                qItem.cont.innerHTML = qItem.text.substring(0, ++index);
+                if (length < index || error++ > 1000) {
+                    clearInterval(typing);
+                    self.isTyping = false;
+                    setTimeout(function() {
+                        document.dispatchEvent(self.typeEvent);
+                    }, 100);
+                }
+            }, qItem.speed);
+        }, qItem.delay);
+    });
 }
 
 /**
@@ -28,25 +59,23 @@ function TypingTool(options) {
  * 
  */
 TypingTool.prototype.type = function (text, options) {
-    var length = text.length;
-    var index = 0;
     var self = this;
     var opt = options || {};
     var cont = opt.container || self.cont;
     var speed = opt.speed || self.speed;
     var delay = opt.delay || self.delay;
 
-    if (!text) {return}
+    // Add text to queue
+    var qItem = {
+        text: text,
+        cont: cont,
+        speed: speed,
+        delay: delay
+    }
+    if (text && typeof text === 'string') {self.queue.push(qItem);}
+    document.dispatchEvent(self.typeEvent);
 
-    setTimeout(function() {
-        var typing = setInterval(function () {
-            cont.innerHTML = text.substring(0, index++);
-            if (length < index) {
-                clearInterval(typing);
-            }
-        }, speed);
-    }, delay);
-
+    console.log(self.queue);
 }
 
 /**
@@ -105,4 +134,8 @@ TypingTool.prototype.eraseAndType = function (text, options) {
     setTimeout(function() {
         self.type(text, options);
     }, timeout);
+}
+
+TypingTool.prototype.addCursor = function () {
+    var cursor = document.createElement("span")
 }
