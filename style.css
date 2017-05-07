@@ -8,6 +8,11 @@ body {
     display: block;
 }
 
+h3 small {
+    color: #b3b2b2;
+    font-family: monospace;
+}
+
 
 /*Set Box properties here*/
 .card,

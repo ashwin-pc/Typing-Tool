@@ -1,3 +1,13 @@
+/**
+ * Typing tool Class: 
+ * Class to simulate typing like actions
+ * 
+ * @param {Object} options Options for the default settings of the class
+ * @param {Node} options.container the dom element to perform the typing on.
+ * @param {Number} options.speed the default speed of typing
+ * @param {Number} options.delay the default delay for typing
+ * 
+ */
 function TypingTool(options) {
     var opt = options || {};
     
@@ -6,7 +16,17 @@ function TypingTool(options) {
     this.delay = opt.delay || 0;
 }
 
-// Method to type text
+/**
+ * Type function 
+ * function to simulate typing a line
+ * 
+ * @param {String} text The text to type
+ * @param {Object} options Options for the default settings of the class
+ * @param {Node} options.container the dom element to perform the typing on.
+ * @param {Number} options.speed the default speed of typing
+ * @param {Number} options.delay the default delay for typing
+ * 
+ */
 TypingTool.prototype.type = function (text, options) {
     var length = text.length;
     var index = 0;
@@ -29,7 +49,17 @@ TypingTool.prototype.type = function (text, options) {
 
 }
 
-// Method to erase text
+/**
+ * Type function 
+ * function to simulate erasing a line
+ * 
+ * @param {Number} partialLength number of characters from the end to be erased in case of partial erasure.
+ * @param {Object} options Options for the default settings of the class
+ * @param {Node} options.container the dom element to perform the typing on.
+ * @param {Number} options.speed the default speed of typing
+ * @param {Number} options.delay the default delay for typing
+ * 
+ */
 TypingTool.prototype.erase = function (partialLength, options) {
     var self = this;
     var opt = options || {};
@@ -52,7 +82,18 @@ TypingTool.prototype.erase = function (partialLength, options) {
     
 }
 
-// Method to erase then type text
+
+/**
+ * Erase then Type function 
+ * function to simulate erasing then typing of a line
+ * 
+ * @param {String} text The text to type
+ * @param {Object} options Options for the default settings of the class
+ * @param {Node} options.container the dom element to perform the typing on.
+ * @param {Number} options.speed the default speed of typing
+ * @param {Number} options.delay the default delay for typing
+ * 
+ */
 TypingTool.prototype.eraseAndType = function (text, options) {
     var self = this;
     var cont = options.container || self.cont;

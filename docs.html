@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Typing Tool</title>
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <!-- Milligram CSS minified -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="card large z-2">
+        <h3>How to use</h3>
+        <p>There are 3 functions available to use in the typing tool class</p>
+        <ol>
+            <li><strong>.type()</strong></li>
+            <li><strong>.erase()</strong></li>
+            <li><strong>.eraseType()</strong></li>
+        </ol> 
+        <hr>
+
+        <!--Initialize-->
+        <h3>Typing tool class  <small>TypingTool(options)</small></h3>
+        <p>Options</p>
+        <ul>
+            <li>
+                container: The Dom element to perform the typing action on (default: document.body)
+            </li>
+            <li>
+                speed: The default rate at which the typing should occur (default: 500)
+            </li>
+            <li>
+                delay: The default delay before performing any action (default: 0)
+            </li>
+        </ul>
+        <pre> var typing = new TypingTool();</pre>
+        or
+        <pre> var typing = new TypingTool({
+    container: "containerID",
+    speed: 100,
+    delay:0
+ });</pre>
+        
+        <hr>
+
+        <!--Typing Section-->
+        <h3>Type function <small>.type(text, options)</small></h3>  
+        <p>This function is used to simulate the typing of a new line onto a given container</p>
+        <p><strong>text</strong>: is the string you want to be simulate</p>
+        <pre> typing.type("Hello World")</pre>
+        <p>Options are the same as that of the class initialization. However these options will affect only the current typing instance.</p>
+        <hr>
+    
+        <!--Eraing Section-->
+        <h3>Erase function <small>.type(partialLength, options)</small></h3>  
+        <p>This function is used to simulate the erasing of a line of text in a given container. Partial erasing of a text is also possible.</p>
+        <p><strong>partialLength</strong>: length of the text to remove from the container from the end</p>
+        <pre> typing.erase()</pre>
+        <p>Options are the same as that of the class initialization. However these options will affect only the current typing instance.</p>
+        <hr>
+
+        <!--Eraing and Typing Section-->
+        <h3>Erase and Type function <small>.eraseType(text, options)</small></h3>  
+        <p>This function is used to simulate the erasing followed by typing of a line of text in a given container. If no text is present, it will just type.</p>
+        <p><strong>text</strong>: is the string you want to be simulate</p>
+        <pre> typing.eraseType("Hello World")</pre>
+        <p>Options are the same as that of the class initialization. However these options will affect only the current typing instance.</p>
+        <hr>
+    
+    
+    </div>
+</body>
+</html>
