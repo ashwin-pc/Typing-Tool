@@ -40,13 +40,21 @@ function TypingTool(options) {
         setTimeout(function() {
             var typing = setInterval(function () {
                 qItem.cont.innerHTML = qItem.text.substring(0, ++index);
+
+                // after typing
                 if (length < index || error++ > 1000) {
                     clearInterval(typing);
-                    self.isTyping = false;
                     self.addCursor(qItem.cont);
-                    setTimeout(function() {
-                        document.dispatchEvent(self.typeEvent);
-                    }, 100);
+
+                    // If erase is required 
+                    if (qItem.erase) {
+                        self.erase(null,{triggerType: true})
+                    } else {
+                        setTimeout(function() {
+                            self.isTyping = false;
+                            document.dispatchEvent(self.typeEvent);
+                        }, 100);
+                    }
                 }
             }, qItem.speed);
         }, qItem.delay);
@@ -110,6 +118,12 @@ TypingTool.prototype.erase = function (partialLength, options) {
             cont.innerHTML = text.substring(0, index--);
             if (index < stop) {
                 clearInterval(erasing);
+
+                // trigger Type
+                if (opt.triggerType) {
+                    self.isTyping = false;
+                    document.dispatchEvent(self.typeEvent);
+                }
             }
         }, speed);
     }, delay);    
@@ -130,17 +144,34 @@ TypingTool.prototype.erase = function (partialLength, options) {
  */
 TypingTool.prototype.eraseAndType = function (text, options) {
     var self = this;
-    var cont = options.container || self.cont;
-    var speed = options.speed || self.speed;
-    var delay = options.delay || self.delay;
+    var opt = options || {};
+    var cont = opt.container || self.cont;
+    var speed = opt.speed || self.speed;
+    var delay = opt.delay || self.delay;
     var timeout = (speed * cont.innerText.length) + delay + 100;
     
-    self.erase(null, options);
+    self.erase(null, opt);
     setTimeout(function() {
-        self.type(text, options);
+        var qItem = {
+            text: text,
+            speed: speed,
+            delay: delay,
+            cont: cont,
+            erase: true
+        }
+        self.queue.push(qItem);
+        console.log(self.queue);
+        document.dispatchEvent(self.typeEvent);
     }, timeout);
 }
 
+/**
+ * Add Cursor function 
+ * function to Add a Cursor to the container
+ * 
+ * @param {Node} container the dom element to add the cursor to.
+ * 
+ */
 TypingTool.prototype.addCursor = function (container) {
     var self = this;
     if(!self.cursor.enabled) {return};
