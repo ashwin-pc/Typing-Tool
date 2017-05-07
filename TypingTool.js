@@ -28,7 +28,6 @@ function TypingTool(options) {
 
     document.addEventListener("type", function () {
         // Do nothing if typing in progress
-        console.log(self.isTyping);
         if (self.isTyping || !self.queue.length) {return;}  
         self.isTyping = true;
 
